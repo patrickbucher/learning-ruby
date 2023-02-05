@@ -24,7 +24,8 @@ def to_table_row(r)
 end
 
 results = []
-while (line = gets)
+file = File.open(ARGV[0])
+while (line = file.gets)
   results.concat(parse(line))
 end
 
@@ -32,4 +33,13 @@ rows = results.map { |r| to_table_row(r) }
 by_team = rows.group_by { |r| r[:team] }
 table = by_team.map { |team, rows| accumulate(rows) }
 sorted = table.sort_by { |row| [row[:p], row[:g_d], row[:w]] }
-p sorted.reverse
+ranked = sorted.reverse().map.with_index { |r, i| r.merge({r: i + 1}) }
+
+title = sprintf("%3s %30s %3s %3s %3s %3s %3s %3s %3s",
+                "#", "Team", "W", "T", "L", "+", "-", "=", "P")
+sep = "-" * title.length
+puts title
+puts sep
+ranked.each { |r| printf("%3d %30s %3d %3d %3d %3d %3d %3d %3d\n",
+                         r[:r], r[:team], r[:w], r[:t], r[:l],
+                         r[:g_made], r[:g_got], r[:g_diff], r[:p]) }
