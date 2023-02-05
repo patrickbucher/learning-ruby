@@ -12,13 +12,7 @@ def accumulate(rows)
   }
 end
 
-
-results = []
-while (line = gets)
-  results.concat(parse(line))
-end
-
-rows = results.map { |r|
+def to_table_row(r)
   row = {team: r[:t_a], g_made: r[:g_a], g_got: r[:g_b], g_diff: r[:g_a] - r[:g_b]}
   if r[:g_a] > r[:g_b]
     row.merge({w: 1, t: 0, l: 0, p: 3})
@@ -27,8 +21,14 @@ rows = results.map { |r|
   else
     row.merge({w: 0, t: 1, l: 0, p: 1})
   end
-}
+end
 
+results = []
+while (line = gets)
+  results.concat(parse(line))
+end
+
+rows = results.map { |r| to_table_row(r) }
 by_team = rows.group_by { |r| r[:team] }
 table = by_team.map { |team, rows| accumulate(rows) }
 sorted = table.sort_by { |row| [row[:p], row[:g_d], row[:w]] }
