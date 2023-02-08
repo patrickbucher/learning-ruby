@@ -31,11 +31,38 @@ Install Ruby 3.2.0 (takes a while):
 Set the freshly installed version as the system global (if you haven't installed
 another one yet):
 
-    $ rbenv rehash
     $ rbenv global 3.2.0
 
 Check the version:
 
     $ ruby --version
     ruby 3.2.0 …
+
+## Handling Gems
+
+After installing a Gem, the binary might not be in `$PATH`:
+
+    $ gem install rufo
+    $ which rufo
+    which: no rufo in (…)
+
+However, `rbenv` is aware of its location:
+
+    $ rbenv which rufo
+    ~/.rbenv/versions/3.2.0/bin/rufo
+
+It could be run using the following workaround:
+
+    $ `rbenv which rufo` hello.rb
+    $ echo $?
+    0
+
+Use the `rehash` command to update the shims:
+
+    $ rbenv rehash
+
+Then the command will be in `$PATH`:
+
+    $ which rufo
+    ~/.rbenv/shims/rufo
 
