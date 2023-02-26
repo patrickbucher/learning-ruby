@@ -32,7 +32,7 @@ end
 rows = results.map { |r| to_table_row(r) }
 by_team = rows.group_by { |r| r[:team] }
 table = by_team.map { |team, rows| accumulate(rows) }
-sorted = table.sort_by { |row| [row[:p], row[:g_d], row[:w]] }
+sorted = table.sort_by { |row| [row[:p], row[:g_diff], row[:w]] }
 ranked = sorted.reverse().map.with_index { |r, i| r.merge({ r: i + 1 }) }
 
 title = sprintf("%3s %30s %3s %3s %3s %3s %3s %3s %3s",
