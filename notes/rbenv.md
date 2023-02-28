@@ -3,7 +3,7 @@
 Install `rbenv` on Arch Linux using [AUR package](https://aur.archlinux.org/packages/rbenv):
 
     $ git clone https://aur.archlinux.org/rbenv.git
-    $ cd rbend
+    $ cd rbenv
     $ makepkg -si --noconfirm
     $ which rbenv
     /usr/bin/rbenv
